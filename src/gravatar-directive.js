@@ -9,7 +9,7 @@
  */
 
 angular.module('ui-gravatar', ['md5hashService', 'md5']).
-    factory('gravatarImageService', function (md5hashService, md5) {
+    factory('gravatarImageService', ['md5hashService', 'md5', function (md5hashService, md5) {
         return {
             getImageSrc : function(value, size, rating, defaultUrl, secure) {
                 // convert the value to lower case and then to a md5 hash
@@ -220,7 +220,7 @@ angular.module('ui-gravatar', ['md5hashService', 'md5']).
                 return temp.toLowerCase();
             }
         };
-    }).
+    }]).
     directive('gravatarImage', ['gravatarImageService', function (gravatarImageService) {
         return {
             restrict:"EAC",
@@ -242,7 +242,7 @@ angular.module('ui-gravatar', ['md5hashService', 'md5']).
                         var src = gravatarImageService.getImageSrc(value, size, rating, defaultUrl, attrs.secure);
                         // construct the tag to insert into the element
                         var tag = '<img class="' + cssClass + '" src="' + src + '" >';
-                        //remove any existing imgs 
+                        //remove any existing imgs
                         elm.find('img').remove();
                         // insert the tag into the element
                         elm.append(tag);
